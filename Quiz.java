@@ -77,7 +77,7 @@ public class Quiz
 	// jika player ingin melanjutkan (dengan mengetikkan 'Ya') dan permainan akan dihentikan
 	// ketika player mengetikkan 'exit'
 	public static void presentQuiz() {
-		presentQuizHelper();
+		presentQuizHelper(0);
 		
 		System.out.println("");
 		System.out.println ("Ingin main lagi?");
@@ -98,7 +98,7 @@ public class Quiz
 	
 	// fungsi yang berguna untuk memanggil recursive loop jikalau player menjawab salah. Pertanyaan
 	// akan diulang kembali dan loop tidak akan selesai sampai player menjawab dengan benar.
-	public static void presentQuizHelper() {
+	public static void presentQuizHelper(int count) {
 		System.out.print("Jawab : ");
 		String ans = "";
 		try{
@@ -108,10 +108,28 @@ public class Quiz
 		
 		if (ans.equals(answer)){
 			System.out.println("BENAR!");
-		}else {
+		}else if (count < 2) {
 			System.out.println("SALAH! Silakan coba lagi");
-			presentQuizHelper();
-		}
+			presentQuizHelper(count+1);
+		}else{
+
+			// Kode yang memberi kesempatan pemain untuk menyerah dari permainan. Jika pemain
+			// telah salah menjawab sebanyak 3 kali, maka opsi ini akan muncul
+			System.out.println("MASIH SALAH! Apakah anda ingin menyerah?");
+			System.out.println("Ketik 'Ya' untuk membuka jawaban");
+
+			String forfeit = "";
+			try{
+			forfeit = br.readLine();
+			}
+			catch (IOException e){}
+
+			if (forfeit.equalsIgnoreCase("Ya")){
+				System.out.println("Jawabannya adalah : " + answer);
+			}else {
+				presentQuizHelper(0);
+			}
+		} 
 	}
 	
 	// fungsi untuk kuis yang berguna untuk mengiterasi kuis pada program
