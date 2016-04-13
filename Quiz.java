@@ -12,6 +12,8 @@ public class Quiz
 	static int indexPresented;
 	static int size;
 	static BufferedReader br;
+	static BufferedReader bf;
+	static ArrayList<String> fileContent;
 	static String arrayOfWords[];
 	static String jumbledWords;
 	static String answer;
@@ -23,15 +25,30 @@ public class Quiz
 		// Inialisasi Objek-objek beserta konten kata-kata yang ada pada kuis
 		// Dalam kasus ini yang disediakan kata-kata yang disediakan adalah
 		// 'buku', 'sampah', 'roti', 'kambing', 'nasi', 'goreng', 'sayur', dan 'tumis' 
+		fileContent = new ArrayList<String>();
 		br = new BufferedReader(new InputStreamReader(System.in));
+		bf = new BufferedReader(new FileReader("words.txt"));
+		readFile();
 		rand = new Random(); 
-		arrayOfWords = new String[] {"buku", "sampah", "roti", "kambing", "nasi", "goreng", "sayur", "tumis"};
 		size = arrayOfWords.length;
 	
 		// Display judul kuis
 		System.out.println("=============== Selamat Datang di Tebak Kata =================");
 		System.out.println("");
 		startQuiz();
+	}
+
+	public static void readFile() throws IOException {
+		String read = "" ;
+		while ( (read = bf.readLine()) != null) {
+			fileContent.add(read);
+		}
+
+		arrayOfWords = new String [fileContent.size()];
+
+		for (int i = 0; i < fileContent.size(); i++) {
+			arrayOfWords[i] = fileContent.get(i);
+		}
 	}
 	
 	// fungsi ini memilih secara random kata-kata yang akan dijadikan soal
